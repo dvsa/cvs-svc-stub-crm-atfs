@@ -9,13 +9,12 @@
   },
   "scripts": {
     "start": "BRANCH=local serverless offline start",
-    "start:test": "npm run tslint && node_modules/gulp/bin/gulp.js start-serverless",
     "build": "node_modules/typescript/bin/tsc --rootDir ./ --outDir .build --sourceMap false && npm run build:copy",
     "build:copy": "find src -type f \\( -name \"*.yml\" -or -name \"*.json\" \\) | cpio -pdm .build && find tests -type f \\( -name \"*.yml\" -or -name \"*.json\" \\)  | cpio -pdm .build",
-    "end:test": "node_modules/gulp/bin/gulp.js kill-serverless",
     "test": "BRANCH=local SLS_DEBUG=* jest --testMatch=\"**/*.unitTest.ts\"",
-    "test-i": "BRANCH=local jest --testMatch=\"**/*.intTest.ts\" --runInBand",
-    "prepush": "npm run coverage && npm run build",
+    "test:integration": "BRANCH=local jest --testMatch=\"**/*.intTest.ts\"",
+    "test-i": "npm run test:integration -- --runInBand --globalSetup='./scripts/setup.ts' --globalTeardown='./scripts/teardown.ts'",
+    "prepush": "npm run coverage && npm run build && npm run test-i",
     "predeploy": "npm install && npm run prepush",
     "security-checks": "git secrets --scan && git log -p | scanrepo",
     "tslint": "tslint tests/**/*.ts src/**/*.ts",
@@ -24,7 +23,7 @@
     "coverage": "npm t -- --coverage --runInBand",
     "audit": "npm audit",
     "package": "mkdir ${ZIP_NAME} && cp package.json package-lock.json ${ZIP_NAME}/ && cp -r .build/src/* ${ZIP_NAME}/ && cd ${ZIP_NAME} && npm ci --production && rm package.json package-lock.json && zip -qr ../${ZIP_NAME}.zip .",
-    "tools-setup": "sls dynamodb migrate && BRANCH=local node_modules/gulp/bin/gulp.js start-serverless && sls dynamodb seed --seed=test-stations"
+    "tools-setup": "node_modules/.bin/sls dynamodb install"
   },
   "author": "",
   "license": "MIT",
