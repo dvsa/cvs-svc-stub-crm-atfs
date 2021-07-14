@@ -15,10 +15,11 @@
     "end:test": "node_modules/gulp/bin/gulp.js kill-serverless",
     "test": "BRANCH=local SLS_DEBUG=* jest --testMatch=\"**/*.unitTest.ts\"",
     "test-i": "BRANCH=local jest --testMatch=\"**/*.intTest.ts\" --runInBand",
-    "prepush": "npm run build && npm run coverage",
+    "prepush": "npm run coverage && npm run build",
     "predeploy": "npm install && npm run prepush",
     "security-checks": "git secrets --scan && git log -p | scanrepo",
     "tslint": "tslint tests/**/*.ts src/**/*.ts",
+    "format": "prettier --write .",
     "sonar-scanner": "npm run coverage && sonar-scanner",
     "coverage": "npm t -- --coverage --runInBand",
     "audit": "npm audit",
@@ -53,6 +54,7 @@
     "jest-plugin-context": "^2.9.0",
     "jest-sonar-reporter": "^2.0.0",
     "lambda-tester": "^3.6.0",
+    "prettier": "^2.3.2",
     "serverless": "^2.45.2",
     "serverless-dynamodb-local": "0.2.38",
     "serverless-offline": "^5.12.1",
@@ -82,7 +84,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run security-checks && npm run audit && npm run tslint",
+      "pre-commit": "npm run security-checks && npm run audit && npm run tslint && npm run format",
       "pre-push": "npm run prepush"
     }
   }
