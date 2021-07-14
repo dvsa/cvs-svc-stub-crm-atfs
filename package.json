@@ -39,6 +39,8 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
     "@types/jest": "25.2.1",
     "@types/jest-plugin-context": "^2.9.3",
     "@types/lambda-tester": "^3.6.0",
@@ -83,6 +85,7 @@
   },
   "husky": {
     "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "npm run audit-dep && npm run security-checks && npm run tslint",
       "pre-push": "npm run prepush"
     }
