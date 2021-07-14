@@ -59,13 +59,13 @@ resources:
       Properties:
         TableName: cvs-local-test-stations
         AttributeDefinitions:
-        - AttributeName: testStationId
-          AttributeType: S
-        - AttributeName: testStationPNumber
-          AttributeType: S
+          - AttributeName: testStationId
+            AttributeType: S
+          - AttributeName: testStationPNumber
+            AttributeType: S
         KeySchema:
-        - AttributeName: testStationId
-          KeyType: HASH
+          - AttributeName: testStationId
+            KeyType: HASH
         GlobalSecondaryIndexes:
           - IndexName: testStationPNumberIndex
             KeySchema:
@@ -76,8 +76,8 @@ resources:
                 - testStationEmails
               ProjectionType: INCLUDE
             ProvisionedThroughput:
-              ReadCapacityUnits: '1'
-              WriteCapacityUnits: '1'
+              ReadCapacityUnits: "1"
+              WriteCapacityUnits: "1"
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
