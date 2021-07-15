@@ -17,7 +17,7 @@
     "prepush": "npm run coverage && npm run build && npm run test-i",
     "predeploy": "npm install && npm run prepush",
     "security-checks": "git secrets --scan && git log -p | scanrepo",
-    "tslint": "tslint tests/**/*.ts src/**/*.ts",
+    "lint": "tslint tests/**/*.ts src/**/*.ts",
     "format": "prettier --write .",
     "sonar-scanner": "npm run coverage && sonar-scanner",
     "coverage": "npm t -- --coverage --runInBand",
@@ -83,7 +83,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run security-checks && npm run audit && npm run tslint && npm run format",
+      "pre-commit": "npm run security-checks && npm run audit && npm run lint && npm run format",
       "pre-push": "npm run prepush"
     }
   }
